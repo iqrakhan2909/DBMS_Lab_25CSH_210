@@ -1,39 +1,38 @@
 <div align="center">
 
-# Experiment 2
-### ER Diagram to Relational Schema (MySQL)
+<img src="assets/banner-exp2.svg" width="100%" alt="Experiment 2: ER Diagram to Relational Schema (MySQL)"/>
 
+<table>
+<tr><th align="left">Name</th><td>Iqra Khan</td><th align="left">UID</th><td><code>25LBCS3306</code></td></tr>
+<tr><th align="left">Experiment No.</th><td>02</td><th align="left">SQL Script</th><td><a href="ecommerce_schema.sql"><img src="https://img.shields.io/badge/SQL%20Script-ecommerce__schema.sql-E76F51?style=flat-square" alt="ecommerce_schema.sql"/></a></td></tr>
+<tr><th align="left">Experiment Title</th><td colspan="3">ER Diagram to Relational Schema (MySQL)</td></tr>
+</table>
 
 </div>
 
-| | |
-|---|---|
-| **Name** | Iqra Khan |
-| **UID** | 25LBCS3306 |
-| **Subject** | Database Management Systems (DBMS) Lab |
-| **Experiment No.** | 2 |
-| **Title** | ER Diagram to Relational Schema (MySQL) |
-| **SQL Script** | [`ecommerce_schema.sql`](ecommerce_schema.sql) |
-|Handwritten| [Handwritten](Exp_2.pdf)|
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
 
+## $\color{#E76F51}{\textsf{Aim}}$
 
----
+> [!NOTE]
+> To convert the ER diagram of the **Indian E-Commerce Platform** (Experiment 1) into a relational schema, write complete **MySQL `CREATE TABLE`** statements with **PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, CHECK, ON DELETE CASCADE and ON DELETE SET NULL** constraints, insert sample data, and demonstrate **referential integrity violations**.
 
-## Aim
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
 
-To convert the ER diagram of the **Indian E-Commerce Platform** (Experiment 1) into a relational schema, write complete **MySQL `CREATE TABLE`** statements with **PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, CHECK, ON DELETE CASCADE and ON DELETE SET NULL** constraints, insert sample data, and demonstrate **referential integrity violations**.
-
-## Software Required
+## $\color{#E76F51}{\textsf{Software Required}}$
 
 - MySQL Server 8.0.16 or later (needed for enforced `CHECK` constraints)
 - MySQL Workbench or the MySQL command-line client
 
-## Files
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
+
+## $\color{#E76F51}{\textsf{Files}}$
 
 | File | Description |
 |---|---|
 | [`ecommerce_schema.sql`](ecommerce_schema.sql) | Complete script: tables, sample data, violations, CASCADE and SET NULL demos |
 | `Exp_2.md` | This lab record |
+|Handwritten| [Handwritten](Exp_2.pdf)|
 
 **How to run:**
 
@@ -43,9 +42,10 @@ mysql -u root -p --force < ecommerce_schema.sql
 
 > `--force` lets the script continue after the **intentional** errors in Part C. In MySQL Workbench, run the script with *"Continue on SQL error"* turned on.
 
----
 
-## Theory
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
+
+## $\color{#E76F51}{\textsf{Theory}}$
 
 ### Relational Integrity Constraints
 
@@ -65,9 +65,10 @@ mysql -u root -p --force < ecommerce_schema.sql
 | **SET NULL** | The child's foreign key is set to `NULL`. The column must be nullable. |
 | **RESTRICT / NO ACTION** | The parent delete or update is **rejected** while child rows exist (MySQL's default). |
 
----
 
-## Step 1: ER-to-Relational Mapping Rules Applied
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
+
+## $\color{#E76F51}{\textsf{Step 1: ER-to-Relational Mapping Rules Applied}}$
 
 | # | ER Construct | Mapping Rule | Applied To |
 |---|---|---|---|
@@ -85,9 +86,10 @@ mysql -u root -p --force < ecommerce_schema.sql
 
 > `ORDER` is a reserved word in SQL, so the Order entity becomes the table **`orders`**.
 
----
 
-## Step 2: Relational Schema
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
+
+## $\color{#E76F51}{\textsf{Step 2: Relational Schema}}$
 
 Primary keys are in **bold**. Foreign keys are in *italics* with an arrow (→) to the referenced table.
 
@@ -175,9 +177,10 @@ erDiagram
 
 > **Why does `orders` use separate `ship_customer_id` and `ship_address_seq` columns?** `address` has a composite key (`customer_id`, `address_seq`). `ON DELETE SET NULL` sets **every** column of the foreign key to NULL. If the FK reused `orders.customer_id`, which is `NOT NULL`, MySQL would reject the table with *ERROR 1830*. Separate nullable columns fix this.
 
----
 
-## Step 3: CREATE TABLE Statements
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
+
+## $\color{#E76F51}{\textsf{Step 3: CREATE TABLE Statements}}$
 
 ```sql
 DROP DATABASE IF EXISTS ecommerce_db;
@@ -407,9 +410,10 @@ CREATE TABLE delivery (
 SHOW TABLES;
 ```
 
----
 
-## Step 4: Insert Sample Data
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
+
+## $\color{#E76F51}{\textsf{Step 4: Insert Sample Data}}$
 
 ```sql
 INSERT INTO customer (customer_id, first_name, middle_name, last_name, email, date_of_birth, registered_on) VALUES
@@ -545,9 +549,10 @@ UNION ALL SELECT 'delivery',       COUNT(*) FROM delivery;
 +----------------+-----------+
 ```
 
----
 
-## Step 5: Demonstrating Referential Integrity and Constraint Violations
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
+
+## $\color{#E76F51}{\textsf{Step 5: Demonstrating Referential Integrity and Constraint Violations}}$
 
 Each statement below is **expected to fail**. The error shows the constraint doing its job.
 
@@ -604,9 +609,10 @@ ERROR 3730 (HY000): Cannot drop table 'seller' referenced by a foreign key const
 
 > Exact wording varies slightly between MySQL versions (and MariaDB), but the error numbers 1452, 1451, 1048 and 1062 are the same.
 
----
 
-## Step 6: Demonstrating ON DELETE CASCADE
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
+
+## $\color{#E76F51}{\textsf{Step 6: Demonstrating ON DELETE CASCADE}}$
 
 ```sql
 -- D1. Deleting an ORDER cascades to ORDER_ITEM, PAYMENT and DELIVERY
@@ -666,9 +672,10 @@ Empty set   -- address of C004
 - Deleting customer `C004`, who had no orders, removed their phone numbers and addresses.
 - `ON UPDATE CASCADE` carried the new seller ID `S010` into `product` and `seller_phone`.
 
----
 
-## Step 7: Demonstrating ON DELETE SET NULL
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
+
+## $\color{#E76F51}{\textsf{Step 7: Demonstrating ON DELETE SET NULL}}$
 
 ```sql
 -- E1. Deleting parent category 'Fashion' -> sub-category parent becomes NULL
@@ -710,9 +717,10 @@ SELECT order_id, customer_id, ship_customer_id, ship_address_seq FROM orders WHE
 - *Brass Diya Set* became uncategorized.
 - Order `ORD1003` kept its history but lost the link to the deleted Work address.
 
----
 
-## Step 8: Verifying Constraints from the Data Dictionary
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
+
+## $\color{#E76F51}{\textsf{Step 8: Verifying Constraints from the Data Dictionary}}$
 
 ```sql
 SELECT rc.TABLE_NAME, rc.CONSTRAINT_NAME, rc.REFERENCED_TABLE_NAME,
@@ -748,23 +756,27 @@ ORDER BY rc.TABLE_NAME, rc.CONSTRAINT_NAME;
 +----------------+---------------------+-----------------------+-------------+-------------+
 ```
 
----
 
-## Result
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
 
-The ER diagram of the Indian e-commerce platform was converted into **16 relational tables** in MySQL.
+## $\color{#E76F51}{\textsf{Result}}$
 
-- Primary key, foreign key, NOT NULL, UNIQUE and CHECK constraints were applied.
-- Sample data was inserted successfully.
-- Referential integrity violations were rejected with errors 1452 and 1451, and NOT NULL, UNIQUE and CHECK violations were also rejected.
-- `ON DELETE CASCADE` removed dependent rows, and `ON DELETE SET NULL` kept the child rows with a NULL foreign key.
+> [!IMPORTANT]
+> **Result**
+>
+> The ER diagram of the Indian e-commerce platform was converted into **16 relational tables** in MySQL.
+>
+> - Primary key, foreign key, NOT NULL, UNIQUE and CHECK constraints were applied.
+> - Sample data was inserted successfully.
+> - Referential integrity violations were rejected with errors 1452 and 1451, and NOT NULL, UNIQUE and CHECK violations were also rejected.
+> - `ON DELETE CASCADE` removed dependent rows, and `ON DELETE SET NULL` kept the child rows with a NULL foreign key.
 
----
+<img src="assets/rule-2.svg" width="100%" height="8" alt=""/>
 
 <div align="center">
 
-[← Experiment 1](Exp_1.md) &nbsp;|&nbsp; [Home](README.md) &nbsp;|&nbsp; [Experiment 3 →](Exp_3.md)
+<a href="Exp_1.md"><img src="https://img.shields.io/badge/Previous-Experiment%201-9A1750?style=for-the-badge" alt="Previous"/></a> <a href="README.md"><img src="https://img.shields.io/badge/Back%20to-Index-3D405B?style=for-the-badge" alt="Index"/></a> <a href="Exp_3.md"><img src="https://img.shields.io/badge/Next-Experiment%203-2A9D8F?style=for-the-badge" alt="Next"/></a>
 
-**Iqra Khan** &nbsp;·&nbsp; UID: **25LBCS3306** &nbsp;·&nbsp; DBMS Lab – Experiment 2
+<sub>Iqra Khan · UID 25LBCS3306 · Experiment 02</sub>
 
 </div>
