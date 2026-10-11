@@ -1,41 +1,41 @@
 <div align="center">
 
-# Experiment 1
-### ER Diagram for an Indian E-Commerce Platform
+<img src="assets/banner-exp1.svg" width="100%" alt="Experiment 1: ER Diagram for an Indian E-Commerce Platform"/>
+
+<table>
+<tr><th align="left">Name</th><td>Iqra Khan</td><th align="left">UID</th><td><code>25LBCS3306</code></td></tr>
+<tr><th align="left">Experiment No.</th><td>01</td><th align="left">SQL Script</th><td><img src="https://img.shields.io/badge/SQL%20Script-not%20required%20%28design%29-6C757D?style=flat-square" alt="design experiment"/></td></tr>
+<tr><th align="left">Experiment Title</th><td colspan="3">ER Diagram for an Indian E-Commerce Platform</td></tr>
+<tr>
+    <th align="left">Hand Written</th>
+    <td colspan="3">
+        <a href="Exp_1.pdf" target="_blank">Exp_1.pdf</a>
+    </td>
+</tr>
+
+</table>
 
 </div>
 
-| | |
-|---|---|
-| **Name** | Iqra Khan |
-| **UID** | 25LBCS3306 |
-| **Subject** | Database Management Systems (DBMS) Lab |
-| **Experiment No.** | 1 |
-| **Title** | ER Diagram for an Indian E-Commerce Platform |
-| **SQL Script** | — (design experiment) |
-|Hand Written| [Exp_1](Exp_1.pdf)
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
 
----
+## $\color{#9A1750}{\textsf{Aim}}$
 
-## Aim
+> [!NOTE]
+> To design an **Entity–Relationship (ER) diagram** for an Indian e-commerce platform with the entities **Customer, Product, Order, OrderItem, Seller, Category, Payment, Delivery and Address**, and to specify **primary keys, composite and multi-valued attributes, weak entities, specialization of Product, and participation constraints**.
 
-To design an **Entity–Relationship (ER) diagram** for an Indian e-commerce platform with the entities **Customer, Product, Order, OrderItem, Seller, Category, Payment, Delivery and Address**, and to specify **primary keys, composite and multi-valued attributes, weak entities, specialization of Product, and participation constraints**.
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
 
-## Software / Tools Required
+## $\color{#9A1750}{\textsf{Software / Tools Required}}$
 
 - **Mermaid** (diagram-as-code, rendered automatically by GitHub)
 - Any text editor, or GitHub's web editor
 - *(Optional)* draw.io, Lucidchart or MySQL Workbench for a hand-drawn version
 
-## Files
 
-| File | Description |
-|---|---|
-| `Exp_1.md` | This lab record (the ER diagram is drawn in Mermaid inside this file) |
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
 
----
-
-## 1. Theory
+## $\color{#9A1750}{\textsf{1. Theory}}$
 
 ### 1.1 ER Model
 
@@ -101,9 +101,10 @@ The **Entity–Relationship model** is a high-level conceptual data model. It de
 | **Disjointness** | **Disjoint (d)**: an entity belongs to at most one subclass. **Overlapping (o)**: it may belong to several. |
 | **Completeness** | **Total**: every superclass entity must be in some subclass. **Partial**: some need not be. |
 
----
 
-## 2. Procedure
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9A1750}{\textsf{2. Procedure}}$
 
 1. Study the requirements of an Indian e-commerce platform: customers, sellers, products, orders, payments and deliveries.
 2. Identify the **entities** and decide which are **strong** and which are **weak**.
@@ -114,9 +115,10 @@ The **Entity–Relationship model** is a high-level conceptual data model. It de
 7. Draw the ER diagram in **Mermaid** so it renders directly on GitHub.
 8. Document every design decision in tables.
 
----
 
-## 3. Entities Identified
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9A1750}{\textsf{3. Entities Identified}}$
 
 | Entity | Type | Description |
 |---|---|---|
@@ -130,9 +132,10 @@ The **Entity–Relationship model** is a high-level conceptual data model. It de
 | **OrderItem** | **Weak** (owner: Order) | One line of an order: a product and its quantity |
 | **Delivery** | **Weak** (owner: Order) | A shipment of an order through a courier partner |
 
----
 
-## 4. Notation Used in the Diagram
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9A1750}{\textsf{4. Notation Used in the Diagram}}$
 
 | Symbol in diagram | Meaning |
 |---|---|
@@ -151,9 +154,10 @@ The **Entity–Relationship model** is a high-level conceptual data model. It de
 | `"partial key"` | Discriminator of a weak entity |
 | `"derived"` | Derived attribute (computed, not stored) |
 
----
 
-## 5. ER Diagram
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9A1750}{\textsf{5. ER Diagram}}$
 
 ```mermaid
 erDiagram
@@ -323,9 +327,10 @@ erDiagram
     PRODUCT  ||--o| GROCERY : "is a"
 ```
 
----
 
-## 6. Specialization of Product (ISA Hierarchy)
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9A1750}{\textsf{6. Specialization of Product (ISA Hierarchy)}}$
 
 ```mermaid
 flowchart TD
@@ -350,9 +355,10 @@ flowchart TD
 | **Defining attribute** | `product_type` | Attribute-defined specialization: its value decides the subclass. |
 | **Inheritance** | Each subclass inherits all `PRODUCT` attributes and uses `product_id` as its PK and FK. |
 
----
 
-## 7. Primary Keys
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9A1750}{\textsf{7. Primary Keys}}$
 
 | Entity | Primary Key | Type |
 |---|---|---|
@@ -367,9 +373,10 @@ flowchart TD
 | Payment | `payment_id` | Simple (`transaction_ref` is a candidate key) |
 | Delivery | (`order_id`, `shipment_no`) | Composite: owner key + partial key |
 
----
 
-## 8. Composite Attributes
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9A1750}{\textsf{8. Composite Attributes}}$
 
 | Entity | Composite Attribute | Components |
 |---|---|---|
@@ -379,7 +386,9 @@ flowchart TD
 | Seller | `contact_name` | contact_first_name, contact_last_name |
 | Seller | `pickup_address` | pickup_city, pickup_state, pickup_pincode |
 
-## 9. Multi-valued Attributes
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9A1750}{\textsf{9. Multi-valued Attributes}}$
 
 | Entity | Multi-valued Attribute | Mapped To |
 |---|---|---|
@@ -387,7 +396,9 @@ flowchart TD
 | Seller | phone_numbers | `SELLER_PHONE` (seller_id, phone_number) |
 | Product | images | `PRODUCT_IMAGE` (product_id, image_url) |
 
-## 10. Derived Attributes
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9A1750}{\textsf{10. Derived Attributes}}$
 
 | Entity | Attribute | Derived From |
 |---|---|---|
@@ -395,9 +406,10 @@ flowchart TD
 | Order | `total_amount` | Σ (quantity × unit_price + gst_amount) of its order items |
 | Seller | `rating` | Customer reviews |
 
----
 
-## 11. Weak Entities
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9A1750}{\textsf{11. Weak Entities}}$
 
 | Weak Entity | Owner (Identifying) Entity | Identifying Relationship | Partial Key | Full Key |
 |---|---|---|---|---|
@@ -407,9 +419,10 @@ flowchart TD
 
 A weak entity cannot exist without its owner, so its participation in the identifying relationship is always **total**. Deleting a customer deletes their addresses, and deleting an order deletes its items and shipments.
 
----
 
-## 12. Relationships, Cardinality and Participation Constraints
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9A1750}{\textsf{12. Relationships, Cardinality and Participation Constraints}}$
 
 | Relationship | Entities | Cardinality | Participation | Meaning |
 |---|---|---|---|---|
@@ -427,9 +440,10 @@ A weak entity cannot exist without its owner, so its participation in the identi
 
 > **Many-to-many resolved:** Order ↔ Product is M : N, resolved through the weak entity **ORDER_ITEM**, which stores `quantity`, `unit_price` and `gst_amount`.
 
----
 
-## 13. Indian-Specific Design Choices
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9A1750}{\textsf{13. Indian-Specific Design Choices}}$
 
 - **GSTIN, PAN** on Seller and **HSN code, GST rate** on Product for GST invoicing.
 - **6-digit PIN code** and **state** on Address for delivery serviceability and IGST/CGST/SGST calculation.
@@ -438,25 +452,29 @@ A weak entity cannot exist without its owner, so its participation in the identi
 - **FSSAI licence** and veg/non-veg marking on Grocery; **BIS certification** on Electronics.
 - All amounts are in **INR (₹)**.
 
----
 
-## Result
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
 
-The ER diagram for the **Indian e-commerce platform** was designed with **9 core entities**: 6 strong and 3 weak. These are supported by 3 tables for multi-valued attributes and 4 subclasses.
+## $\color{#9A1750}{\textsf{Result}}$
 
-- **Primary keys** were chosen for every entity. The weak entities **Address, OrderItem and Delivery** are identified by their owner's key plus a partial key.
-- **Composite attributes** (name, street address, pickup address), **multi-valued attributes** (phone numbers, product images) and **derived attributes** (age, order total, seller rating) were identified.
-- **Product** was specialised into **Electronics, Clothing, Book and Grocery**, using a **disjoint, partial** specialization.
-- **Cardinality and participation constraints** were specified for all 11 relationships, and the M : N relationship between Order and Product was resolved through OrderItem.
+> [!IMPORTANT]
+> **Result**
+>
+> The ER diagram for the **Indian e-commerce platform** was designed with **9 core entities**: 6 strong and 3 weak. These are supported by 3 tables for multi-valued attributes and 4 subclasses.
+>
+> - **Primary keys** were chosen for every entity. The weak entities **Address, OrderItem and Delivery** are identified by their owner's key plus a partial key.
+> - **Composite attributes** (name, street address, pickup address), **multi-valued attributes** (phone numbers, product images) and **derived attributes** (age, order total, seller rating) were identified.
+> - **Product** was specialised into **Electronics, Clothing, Book and Grocery**, using a **disjoint, partial** specialization.
+> - **Cardinality and participation constraints** were specified for all 11 relationships, and the M : N relationship between Order and Product was resolved through OrderItem.
+>
+> The diagram is written in **Mermaid** and renders directly on GitHub. This ER model is converted into a relational schema in **Experiment 2**.
 
-The diagram is written in **Mermaid** and renders directly on GitHub. This ER model is converted into a relational schema in **Experiment 2**.
-
----
+<img src="assets/rule-1.svg" width="100%" height="8" alt=""/>
 
 <div align="center">
 
-[Home](README.md) &nbsp;|&nbsp; [Experiment 2 →](Exp_2.md)
+<a href="README.md"><img src="https://img.shields.io/badge/Back%20to-Index-3D405B?style=for-the-badge" alt="Index"/></a> <a href="Exp_2.md"><img src="https://img.shields.io/badge/Next-Experiment%202-E76F51?style=for-the-badge" alt="Next"/></a>
 
-**Iqra Khan** &nbsp;·&nbsp; UID: **25LBCS3306** &nbsp;·&nbsp; DBMS Lab – Experiment 1
+<sub>Iqra Khan · UID 25LBCS3306 · Experiment 01</sub>
 
 </div>
