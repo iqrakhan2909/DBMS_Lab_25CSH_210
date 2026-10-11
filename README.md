@@ -1,4 +1,4 @@
-<div align="center">
+-<div align="center">
 
 # DBMS Lab
 
@@ -44,8 +44,8 @@ All queries were executed on **MySQL 8.0**, and the outputs in each record are c
 
 | No. | Experiment | Key Topics | Lab Record | SQL Script |
 |:---:|---|---|:---:|:---:|
-| **1** | **ER Diagram:** Indian E-Commerce Platform | Entities, keys, composite and multi-valued attributes, weak entities, specialization, participation constraints | [Exp_1.md](Exp_1.md) | — |
-| **2** | **ER to Relational Schema** | `CREATE TABLE`, PK / FK, `NOT NULL`, `UNIQUE`, `CHECK`, `ON DELETE CASCADE / SET NULL`, referential integrity violations | [Exp_2.md](Exp_2.md) | [ecommerce_schema.sql](ecommerce_schema.sql) |
+| **1** | **ER Diagram:** Indian E-Commerce Platform | Entities, keys, composite and multi-valued attributes, weak entities, specialization, participation constraints | [Exp_1.md](Exp_1.md) [Exp_1.pdf](Exp_1.pdf) | — |
+| **2** | **ER to Relational Schema** | `CREATE TABLE`, PK / FK, `NOT NULL`, `UNIQUE`, `CHECK`, `ON DELETE CASCADE / SET NULL`, referential integrity violations | [Exp_2.md](Exp_2.md) [Exp_2.pdf](Exp_2.pdf) | [ecommerce_schema.sql](ecommerce_schema.sql) |
 | **3** | **Employee–Department–Project Queries** | Selection, projection, aggregates, `GROUP BY`, `HAVING`, `CASE`, `ORDER BY` | [Exp_3.md](Exp_3.md) | [company_queries.sql](company_queries.sql) |
 | **4** | **Joins, Subqueries and EXPLAIN** | `INNER` / `LEFT` / self / 3-way joins, correlated subqueries, `EXISTS`, simulated `INTERSECT` and `EXCEPT`, execution plans | [Exp_4.md](Exp_4.md) | [joins_subqueries.sql](joins_subqueries.sql) |
 | **5** | **Views and Recursive CTEs** | Salary summary and hierarchy views, view updatability, `WITH CHECK OPTION`, `WITH RECURSIVE` reporting chains | [Exp_5.md](Exp_5.md) | [views_recursive_cte.sql](views_recursive_cte.sql) |
@@ -60,8 +60,10 @@ DBMS-Lab/
 │
 ├── README.md                    ← you are here
 │
-├── Exp_1.md                     ← ER diagram (Mermaid)
+├── Exp_1.md                     ← ER diagram (Mermaid) 
+├── Exp_1.pdf                    ← ER diagram (handmade) 
 ├── Exp_2.md                     ← Relational schema and constraints
+├── Exp_2.pdf                    ← Relational schema and constraints handmade
 ├── Exp_3.md                     ← Basic SQL queries
 ├── Exp_4.md                     ← Joins, subqueries, EXPLAIN
 ├── Exp_5.md                     ← Views and recursive CTEs
