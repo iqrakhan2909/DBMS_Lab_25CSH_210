@@ -1,32 +1,32 @@
 <div align="center">
 
-# Experiment 5
-### SQL Views, View Updatability and Recursive CTEs
+<img src="assets/banner-exp5.svg" width="100%" alt="Experiment 5: SQL Views, View Updatability and Recursive CTEs"/>
+
+<table>
+<tr><th align="left">Name</th><td>Iqra Khan</td><th align="left">UID</th><td><code>25LBCS3306</code></td></tr>
+<tr><th align="left">Experiment No.</th><td>05</td><th align="left">SQL Script</th><td><a href="views_recursive_cte.sql"><img src="https://img.shields.io/badge/SQL%20Script-views__recursive__cte.sql-6D597A?style=flat-square" alt="views_recursive_cte.sql"/></a></td></tr>
+<tr><th align="left">Experiment Title</th><td colspan="3">SQL Views, View Updatability and Recursive CTEs</td></tr>
+</table>
 
 </div>
 
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
 
-| | |
-|---|---|
-| **Name** | Iqra Khan |
-| **UID** | 25LBCS3306 |
-| **Subject** | Database Management Systems (DBMS) Lab |
-| **Experiment No.** | 5 |
-| **Title** | SQL Views, View Updatability and Recursive CTEs |
-| **SQL Script** | [`views_recursive_cte.sql`](views_recursive_cte.sql) |
+## $\color{#6D597A}{\textsf{Aim}}$
 
----
+> [!NOTE]
+> To create SQL **views** for a **department salary summary** and the **employee hierarchy**, to **test the updatability of views**, and to implement a **recursive CTE** that displays **reporting chains**.
 
-## Aim
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
 
-To create SQL **views** for a **department salary summary** and the **employee hierarchy**, to **test the updatability of views**, and to implement a **recursive CTE** that displays **reporting chains**.
-
-## Software Required
+## $\color{#6D597A}{\textsf{Software Required}}$
 
 - MySQL Server 8.0 or later (recursive CTEs need 8.0+)
 - MySQL Workbench or the MySQL command-line client
 
-## Files
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
+
+## $\color{#6D597A}{\textsf{Files}}$
 
 | File | Description |
 |---|---|
@@ -43,9 +43,10 @@ mysql -u root -p -t --force < views_recursive_cte.sql                # runs Expe
 
 > `--force` lets the script continue after the **intentional** errors in Part C. All data changes are undone at the end (Part F), so `company_db` is left exactly as Experiment 3 created it. Outputs were captured on **MySQL 8.0.46**.
 
----
 
-## 1. Theory
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
+
+## $\color{#6D597A}{\textsf{1. Theory}}$
 
 ### 1.1 Views
 
@@ -70,15 +71,15 @@ A view is **updatable** (UPDATE / DELETE / INSERT allowed) only if each row of t
 
 | Construct | Updatable? |
 |---|---|
-| Aggregate functions (`SUM`, `COUNT`, `AVG`…) or `GROUP BY` / `HAVING` | ❌ |
-| `DISTINCT` | ❌ |
-| `UNION` / `UNION ALL` | ❌ |
-| Subquery in the SELECT list, or a recursive CTE | ❌ |
-| The same table referenced more than once (self-join) | ❌ |
-| Outer joins | ❌ (in most cases) |
-| Inner join of several tables | ⚠️ UPDATE of **one** table only. No DELETE. INSERT into one table only. |
-| Computed column (e.g. `salary * 12`) | ⚠️ That column can't be updated, and the view is not insertable |
-| Simple `SELECT` from one table with `WHERE` | ✅ Fully updatable |
+| Aggregate functions (`SUM`, `COUNT`, `AVG`…) or `GROUP BY` / `HAVING` | $\color{#D62828}{\times}$ |
+| `DISTINCT` | $\color{#D62828}{\times}$ |
+| `UNION` / `UNION ALL` | $\color{#D62828}{\times}$ |
+| Subquery in the SELECT list, or a recursive CTE | $\color{#D62828}{\times}$ |
+| The same table referenced more than once (self-join) | $\color{#D62828}{\times}$ |
+| Outer joins | $\color{#D62828}{\times}$ (in most cases) |
+| Inner join of several tables | $\color{#E09F3E}{\triangle}$ UPDATE of **one** table only. No DELETE. INSERT into one table only. |
+| Computed column (e.g. `salary * 12`) | $\color{#E09F3E}{\triangle}$ That column can't be updated, and the view is not insertable |
+| Simple `SELECT` from one table with `WHERE` | $\color{#2A9D8F}{\checkmark}$ Fully updatable |
 
 ### 1.3 WITH CHECK OPTION
 
@@ -110,9 +111,10 @@ Iteration 3            : Karthik, Divya, Rahul, Neha   (manager_id = Vikram / Sn
 Iteration 4            : (no rows)  → recursion stops
 ```
 
----
 
-## 2. Schema Used (from Experiment 3)
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
+
+## $\color{#6D597A}{\textsf{2. Schema Used (from Experiment 3)}}$
 
 ```
 DEPARTMENT (dept_id, dept_name, location, manager_id → EMPLOYEE, established)
@@ -139,26 +141,28 @@ flowchart TD
 
 *(Engineering department shown. Every department has a similar tree under its manager.)*
 
----
 
-## 3. Views Created
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
+
+## $\color{#6D597A}{\textsf{3. Views Created}}$
 
 | View | Type | Purpose | Updatable? |
 |---|---|---|---|
-| `v_dept_salary_summary` | Aggregate (GROUP BY) | Department salary summary | ❌ |
-| `v_employee_manager` | Self-join | Employee with direct manager | ❌ |
-| `v_employee_hierarchy` | Recursive CTE | Level and reporting path of every employee | ❌ |
-| `v_engineering` | Single table + WHERE + CHECK OPTION | Engineering staff | ✅ |
-| `v_engineering_nocheck` | Single table + WHERE | Same view, without CHECK OPTION | ✅ |
-| `v_eng_senior_local` / `_cascaded` | View on a view | LOCAL vs CASCADED check | ✅ |
-| `v_emp_pay` | Computed column | Salary with annual CTC | ⚠️ Partly |
-| `v_emp_dept` | Inner join | Employee with department | ⚠️ One table only |
-| `v_distinct_designations` / `v_all_people` | DISTINCT / UNION | Non-updatable examples | ❌ |
-| `v_employee_public` | Inner join (security) | Hides salary and personal data | ⚠️ |
+| `v_dept_salary_summary` | Aggregate (GROUP BY) | Department salary summary | $\color{#D62828}{\times}$ |
+| `v_employee_manager` | Self-join | Employee with direct manager | $\color{#D62828}{\times}$ |
+| `v_employee_hierarchy` | Recursive CTE | Level and reporting path of every employee | $\color{#D62828}{\times}$ |
+| `v_engineering` | Single table + WHERE + CHECK OPTION | Engineering staff | $\color{#2A9D8F}{\checkmark}$ |
+| `v_engineering_nocheck` | Single table + WHERE | Same view, without CHECK OPTION | $\color{#2A9D8F}{\checkmark}$ |
+| `v_eng_senior_local` / `_cascaded` | View on a view | LOCAL vs CASCADED check | $\color{#2A9D8F}{\checkmark}$ |
+| `v_emp_pay` | Computed column | Salary with annual CTC | $\color{#E09F3E}{\triangle}$ Partly |
+| `v_emp_dept` | Inner join | Employee with department | $\color{#E09F3E}{\triangle}$ One table only |
+| `v_distinct_designations` / `v_all_people` | DISTINCT / UNION | Non-updatable examples | $\color{#D62828}{\times}$ |
+| `v_employee_public` | Inner join (security) | Hides salary and personal data | $\color{#E09F3E}{\triangle}$ |
 
----
 
-## 4. Part A – View 1: Department Salary Summary
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
+
+## $\color{#6D597A}{\textsf{4. Part A – View 1: Department Salary Summary}}$
 
 #### V1. Department-wise salary summary view.
 
@@ -252,11 +256,13 @@ mysql> SELECT dept_name, total_monthly_salary FROM v_dept_salary_summary WHERE d
 1 row in set
 ```
 
+> [!TIP]
 > **Observation:** The view's total went up by ₹10,000 right after the base-table UPDATE. A view stores only the **query**. It holds no copy of the data, so it always shows current values.
 
----
 
-## 5. Part B – View 2: Employee Hierarchy
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
+
+## $\color{#6D597A}{\textsf{5. Part B – View 2: Employee Hierarchy}}$
 
 #### V4. Each employee with their direct manager.
 
@@ -358,6 +364,7 @@ mysql> SELECT emp_id, employee_name, level, reporting_path ...
 10 rows in set
 ```
 
+> [!TIP]
 > **Observation:** The anchor member selects the top managers (level 1). The recursive member adds everyone who reports to a person already found, until no new rows appear. `CAST(first_name AS CHAR(500))` matters: the anchor fixes the column width for the whole CTE, so without the cast longer paths would be cut off or raise an error.
 
 #### V6. Number of employees at each level of the organisation.
@@ -402,9 +409,10 @@ SHOW FULL TABLES WHERE Table_type = 'VIEW';
 3 rows in set
 ```
 
----
 
-## 6. Part C – Testing Updatability of Views
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
+
+## $\color{#6D597A}{\textsf{6. Part C – Testing Updatability of Views}}$
 
 #### U1. Simple single-table view of Engineering staff, WITH CHECK OPTION.
 
@@ -460,6 +468,7 @@ mysql> SELECT emp_id, first_name, salary FROM employee WHERE designation = 'Asso
 3 rows in set
 ```
 
+> [!TIP]
 > **Observation:** An UPDATE on the view was applied to the underlying `employee` table.
 
 #### U3. Add a new Engineering employee through the view.
@@ -487,6 +496,7 @@ mysql> SELECT emp_id, first_name, designation, salary, commission, dept_id FROM 
 1 row in set
 ```
 
+> [!TIP]
 > **Observation:** An INSERT through the view created a row in `employee`. Columns not in the view (`commission`) got their default value, NULL.
 
 #### U4. Inserting a Finance employee through the Engineering view is rejected.
@@ -505,6 +515,7 @@ mysql> INSERT INTO v_engineering (emp_id, first_name, last_name, gender, dob, hi
 ERROR 1369 (HY000): CHECK OPTION failed 'company_db.v_engineering'
 ```
 
+> [!TIP]
 > **Observation:** `WITH CHECK OPTION` rejects any row that would not be visible through the view (dept_id = 'D03' does not satisfy `dept_id = 'D01'`).
 
 #### U5. Moving an employee out of the view's WHERE condition is rejected.
@@ -553,6 +564,7 @@ mysql> SELECT emp_id, first_name, dept_id FROM employee WHERE emp_id = 133;
 1 row in set
 ```
 
+> [!TIP]
 > **Observation:** Without CHECK OPTION, the UPDATE succeeded but the row **vanished from the view**, because it no longer satisfies the view's WHERE clause. CHECK OPTION exists to prevent this.
 
 #### U7. Delete the new employee through a view.
@@ -629,6 +641,7 @@ mysql> UPDATE v_eng_senior_cascaded SET dept_id = 'D05' WHERE emp_id = 104;
 ERROR 1369 (HY000): CHECK OPTION failed 'company_db.v_eng_senior_cascaded'
 ```
 
+> [!TIP]
 > **Observation:** **LOCAL** checks only the condition of the view itself (`salary >= 100000`), so moving Sneha to D05 was allowed. **CASCADED** (the default) also checks every underlying view's condition (`dept_id = 'D01'`), so the same change was rejected.
 
 #### U9. Views with GROUP BY / aggregates cannot be updated.
@@ -691,6 +704,7 @@ mysql> UPDATE v_emp_pay SET annual_ctc = 600000 WHERE emp_id = 114;
 ERROR 1348 (HY000): Column 'annual_ctc' is not updatable
 ```
 
+> [!TIP]
 > **Observation:** A view can be **partly updatable**. Base columns (`salary`) can be changed. A computed column (`annual_ctc = salary * 12`) cannot, because MySQL has no way to work backwards from it to a base value.
 
 #### U12. INSERT is not possible when the view has a derived column.
@@ -706,6 +720,7 @@ mysql> INSERT INTO v_emp_pay (emp_id, first_name, salary) VALUES (135, 'Test', 4
 ERROR 1471 (HY000): The target table v_emp_pay of the INSERT is not insertable-into
 ```
 
+> [!TIP]
 > **Observation:** The view is updatable but not **insertable**. A view with a derived column cannot accept INSERTs.
 
 #### U13. Columns of ONE base table can be updated through an INNER JOIN view ...
@@ -761,6 +776,7 @@ mysql> DELETE FROM v_emp_dept WHERE emp_id = 109;
 ERROR 1395 (HY000): Can not delete from join view 'company_db.v_emp_dept'
 ```
 
+> [!TIP]
 > **Observation:** For a join view, MySQL allows an UPDATE only if it changes columns of **one** base table, allows INSERT only into one table, and never allows DELETE.
 
 #### U15. v_employee_manager (LEFT self-join of employee) is not updatable at all.
@@ -776,6 +792,7 @@ mysql> UPDATE v_employee_manager SET designation = 'Senior Associate Engineer' W
 ERROR 1288 (HY000): The target table v_employee_manager of the UPDATE is not updatable
 ```
 
+> [!TIP]
 > **Observation:** `v_employee_manager` reads the `employee` table **twice** (a self-join through LEFT JOIN), so MySQL cannot map a view row to a single base row.
 
 #### U16. Views using DISTINCT or UNION cannot be updated.
@@ -822,6 +839,7 @@ mysql> UPDATE v_employee_hierarchy SET designation = 'CTO' WHERE emp_id = 101;
 ERROR 1288 (HY000): The target table v_employee_hierarchy of the UPDATE is not updatable
 ```
 
+> [!TIP]
 > **Observation:** The recursive CTE view is not updatable either. Note that U18 lists it as `IS_UPDATABLE = YES`, yet the UPDATE was rejected. That flag is only a preliminary check made when the view is created, and the real test happens when the statement runs.
 
 #### U18. MySQL reports which views are updatable in INFORMATION_SCHEMA.VIEWS.
@@ -854,6 +872,7 @@ ORDER BY IS_UPDATABLE DESC, TABLE_NAME;
 11 rows in set
 ```
 
+> [!TIP]
 > **Observation:** `IS_UPDATABLE = NO` is reported for views with aggregates/GROUP BY, DISTINCT, UNION, and the self-join view.
 
 #### U19. A view that hides salary and personal data from general users.
@@ -891,25 +910,26 @@ mysql> SELECT * FROM v_employee_public WHERE dept_name = 'Finance' ORDER BY emp_
 
 | Test | View | Operation | Result | Error |
 |---|---|---|---|---|
-| U2 | `v_engineering` (simple) | UPDATE | ✅ Success | – |
-| U3 | `v_engineering` | INSERT | ✅ Success | – |
-| U4 | `v_engineering` | INSERT row outside the view | ❌ Rejected | 1369 CHECK OPTION failed |
-| U5 | `v_engineering` | UPDATE row out of the view | ❌ Rejected | 1369 CHECK OPTION failed |
-| U6 | `v_engineering_nocheck` | UPDATE row out of the view | ✅ Allowed, row disappears | – |
-| U7 | `v_engineering` | DELETE | ✅ Success | – |
-| U8 | LOCAL vs CASCADED | UPDATE dept | LOCAL ✅ / CASCADED ❌ | 1369 |
-| U9, U10 | `v_dept_salary_summary` (aggregate) | UPDATE / DELETE | ❌ | 1288 not updatable |
-| U11 | `v_emp_pay` | UPDATE base / computed column | ✅ / ❌ | 1348 column not updatable |
-| U12 | `v_emp_pay` | INSERT | ❌ | 1471 not insertable-into |
-| U13 | `v_emp_dept` (join) | UPDATE one table | ✅ Success | – |
-| U14 | `v_emp_dept` (join) | UPDATE two tables / DELETE | ❌ | 1393 / 1395 |
-| U15 | `v_employee_manager` (self-join) | UPDATE | ❌ | 1288 |
-| U16 | DISTINCT / UNION views | UPDATE | ❌ | 1288 |
-| U17 | `v_employee_hierarchy` (recursive CTE) | UPDATE | ❌ | 1288 |
+| U2 | `v_engineering` (simple) | UPDATE | $\color{#2A9D8F}{\checkmark}$ Success | – |
+| U3 | `v_engineering` | INSERT | $\color{#2A9D8F}{\checkmark}$ Success | – |
+| U4 | `v_engineering` | INSERT row outside the view | $\color{#D62828}{\times}$ Rejected | 1369 CHECK OPTION failed |
+| U5 | `v_engineering` | UPDATE row out of the view | $\color{#D62828}{\times}$ Rejected | 1369 CHECK OPTION failed |
+| U6 | `v_engineering_nocheck` | UPDATE row out of the view | $\color{#2A9D8F}{\checkmark}$ Allowed, row disappears | – |
+| U7 | `v_engineering` | DELETE | $\color{#2A9D8F}{\checkmark}$ Success | – |
+| U8 | LOCAL vs CASCADED | UPDATE dept | LOCAL $\color{#2A9D8F}{\checkmark}$ / CASCADED $\color{#D62828}{\times}$ | 1369 |
+| U9, U10 | `v_dept_salary_summary` (aggregate) | UPDATE / DELETE | $\color{#D62828}{\times}$ | 1288 not updatable |
+| U11 | `v_emp_pay` | UPDATE base / computed column | $\color{#2A9D8F}{\checkmark}$ / $\color{#D62828}{\times}$ | 1348 column not updatable |
+| U12 | `v_emp_pay` | INSERT | $\color{#D62828}{\times}$ | 1471 not insertable-into |
+| U13 | `v_emp_dept` (join) | UPDATE one table | $\color{#2A9D8F}{\checkmark}$ Success | – |
+| U14 | `v_emp_dept` (join) | UPDATE two tables / DELETE | $\color{#D62828}{\times}$ | 1393 / 1395 |
+| U15 | `v_employee_manager` (self-join) | UPDATE | $\color{#D62828}{\times}$ | 1288 |
+| U16 | DISTINCT / UNION views | UPDATE | $\color{#D62828}{\times}$ | 1288 |
+| U17 | `v_employee_hierarchy` (recursive CTE) | UPDATE | $\color{#D62828}{\times}$ | 1288 |
 
----
 
-## 7. Part D – Recursive CTE: Reporting Chains
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
+
+## $\color{#6D597A}{\textsf{7. Part D – Recursive CTE: Reporting Chains}}$
 
 #### R1. Generate the numbers 1 to 10.
 
@@ -933,6 +953,7 @@ SELECT GROUP_CONCAT(n ORDER BY n SEPARATOR ', ') AS series FROM numbers;
 1 row in set
 ```
 
+> [!TIP]
 > **Observation:** Every recursive CTE has an **anchor member** (the start row), `UNION ALL`, and a **recursive member** that refers to the CTE itself and has a stop condition.
 
 #### R2. From Rahul (109) up to the top: whom does he report to?
@@ -966,6 +987,7 @@ ORDER BY steps_up;
 4 rows in set
 ```
 
+> [!TIP]
 > **Observation:** Walking **up** the tree: each step joins the current row's `manager_id` to the next person's `emp_id`. It stops when `manager_id` is NULL at the top.
 
 #### R3. The same chain printed as a single path.
@@ -1036,6 +1058,7 @@ ORDER BY sort_key;
 9 rows in set
 ```
 
+> [!TIP]
 > **Observation:** Walking **down** the tree: each step finds people whose `manager_id` is a person already found. `sort_key` builds a path of padded IDs so that each manager is followed by their whole team.
 
 #### R5. Reporting chain of EVERY employee, from the top manager down.
@@ -1143,6 +1166,7 @@ ORDER BY total_team_size DESC, manager_id;
 11 rows in set
 ```
 
+> [!TIP]
 > **Observation:** Ananya has 4 direct reports but a total team of 8, because the recursion also counts the people under Vikram and Sneha.
 
 #### R7. Deepest reporting chain in each department.
@@ -1197,11 +1221,13 @@ mysql> SET SESSION cte_max_recursion_depth = 1000;
 Query OK, 0 rows affected
 ```
 
+> [!TIP]
 > **Observation:** Without a stop condition, recursion would never end. MySQL aborts it once it passes `cte_max_recursion_depth` (default 1000). This protects against loops in the data, such as A managing B and B managing A.
 
----
 
-## 8. Part E – Managing Views (and Cleanup)
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
+
+## $\color{#6D597A}{\textsf{8. Part E – Managing Views (and Cleanup)}}$
 
 #### M1. Add a column to an existing view without dropping it.
 
@@ -1283,28 +1309,32 @@ mysql> SELECT emp_id, first_name, salary FROM employee WHERE emp_id IN (108, 109
 4 rows in set
 ```
 
----
 
-## Result
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
 
-Two views were created and queried:
-- **`v_dept_salary_summary`**: department-wise headcount, total, average, minimum and maximum salary, and annual payroll.
-- **`v_employee_hierarchy`**: every employee's level and reporting path, built with a recursive CTE inside the view.
+## $\color{#6D597A}{\textsf{Result}}$
 
-Updatability was tested through INSERT, UPDATE and DELETE:
-- Simple single-table views were fully updatable. `WITH CHECK OPTION` (LOCAL and CASCADED) blocked changes that would move rows out of the view.
-- Views with aggregates, DISTINCT, UNION, self-joins or recursive CTEs were **not updatable** (error 1288).
-- Join views allowed updating one base table only (errors 1393 and 1395).
-- Computed columns could not be updated (error 1348), and views containing them were not insertable (error 1471).
+> [!IMPORTANT]
+> **Result**
+>
+> Two views were created and queried:
+> - **`v_dept_salary_summary`**: department-wise headcount, total, average, minimum and maximum salary, and annual payroll.
+> - **`v_employee_hierarchy`**: every employee's level and reporting path, built with a recursive CTE inside the view.
+>
+> Updatability was tested through INSERT, UPDATE and DELETE:
+> - Simple single-table views were fully updatable. `WITH CHECK OPTION` (LOCAL and CASCADED) blocked changes that would move rows out of the view.
+> - Views with aggregates, DISTINCT, UNION, self-joins or recursive CTEs were **not updatable** (error 1288).
+> - Join views allowed updating one base table only (errors 1393 and 1395).
+> - Computed columns could not be updated (error 1348), and views containing them were not insertable (error 1471).
+>
+> **Recursive CTEs** displayed reporting chains upward (Rahul → Sneha → Ananya → Rajesh), the full team below a manager as an indented tree, the full org chart with levels, and each manager's total team size. `cte_max_recursion_depth` stopped a runaway recursion.
 
-**Recursive CTEs** displayed reporting chains upward (Rahul → Sneha → Ananya → Rajesh), the full team below a manager as an indented tree, the full org chart with levels, and each manager's total team size. `cte_max_recursion_depth` stopped a runaway recursion.
-
----
+<img src="assets/rule-5.svg" width="100%" height="8" alt=""/>
 
 <div align="center">
 
-[← Experiment 4](Exp_4.md) &nbsp;|&nbsp; [Home](README.md) &nbsp;|&nbsp; [Experiment 6 →](Exp_6.md)
+<a href="Exp_4.md"><img src="https://img.shields.io/badge/Previous-Experiment%204-264653?style=for-the-badge" alt="Previous"/></a> <a href="README.md"><img src="https://img.shields.io/badge/Back%20to-Index-3D405B?style=for-the-badge" alt="Index"/></a> <a href="Exp_6.md"><img src="https://img.shields.io/badge/Next-Experiment%206-9C6610?style=for-the-badge" alt="Next"/></a>
 
-**Iqra Khan** &nbsp;·&nbsp; UID: **25LBCS3306** &nbsp;·&nbsp; DBMS Lab – Experiment 5
+<sub>Iqra Khan · UID 25LBCS3306 · Experiment 05</sub>
 
 </div>
