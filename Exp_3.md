@@ -1,32 +1,32 @@
 <div align="center">
 
-# Experiment 3
-### Employee–Department–Project Schema and SQL Queries
+<img src="assets/banner-exp3.svg" width="100%" alt="Experiment 3: Employee–Department–Project Schema and SQL Queries"/>
+
+<table>
+<tr><th align="left">Name</th><td>Iqra Khan</td><th align="left">UID</th><td><code>25LBCS3306</code></td></tr>
+<tr><th align="left">Experiment No.</th><td>03</td><th align="left">SQL Script</th><td><a href="company_queries.sql"><img src="https://img.shields.io/badge/SQL%20Script-company__queries.sql-2A9D8F?style=flat-square" alt="company_queries.sql"/></a></td></tr>
+<tr><th align="left">Experiment Title</th><td colspan="3">Employee–Department–Project Schema and SQL Queries</td></tr>
+</table>
 
 </div>
 
+<img src="assets/rule-3.svg" width="100%" height="8" alt=""/>
 
-| | |
-|---|---|
-| **Name** | Iqra Khan |
-| **UID** | 25LBCS3306 |
-| **Subject** | Database Management Systems (DBMS) Lab |
-| **Experiment No.** | 3 |
-| **Title** | Employee–Department–Project Schema and SQL Queries |
-| **SQL Script** | [`company_queries.sql`](company_queries.sql) |
+## $\color{#2A9D8F}{\textsf{Aim}}$
 
----
+> [!NOTE]
+> To create an **Employee–Department–Project** schema in MySQL, insert at least **30 employees across 5 departments and 8 projects**, and write SQL queries demonstrating **selection, projection, aggregate functions, GROUP BY, HAVING, CASE expressions and ORDER BY**.
 
-## Aim
+<img src="assets/rule-3.svg" width="100%" height="8" alt=""/>
 
-To create an **Employee–Department–Project** schema in MySQL, insert at least **30 employees across 5 departments and 8 projects**, and write SQL queries demonstrating **selection, projection, aggregate functions, GROUP BY, HAVING, CASE expressions and ORDER BY**.
-
-## Software Required
+## $\color{#2A9D8F}{\textsf{Software Required}}$
 
 - MySQL Server 8.0 or later
 - MySQL Workbench or the MySQL command-line client
 
-## Files
+<img src="assets/rule-3.svg" width="100%" height="8" alt=""/>
+
+## $\color{#2A9D8F}{\textsf{Files}}$
 
 | File | Description |
 |---|---|
@@ -39,9 +39,10 @@ To create an **Employee–Department–Project** schema in MySQL, insert at leas
 mysql -u root -p -t < company_queries.sql
 ```
 
----
 
-## 1. Theory
+<img src="assets/rule-3.svg" width="100%" height="8" alt=""/>
+
+## $\color{#2A9D8F}{\textsf{1. Theory}}$
 
 ### SQL Clauses and Relational Algebra
 
@@ -75,9 +76,10 @@ That is why:
 | Applied **before** `GROUP BY` | Applied **after** `GROUP BY` |
 | Cannot contain aggregate functions | Usually contains aggregate functions |
 
----
 
-## 2. ER Diagram
+<img src="assets/rule-3.svg" width="100%" height="8" alt=""/>
+
+## $\color{#2A9D8F}{\textsf{2. ER Diagram}}$
 
 ```mermaid
 erDiagram
@@ -128,7 +130,9 @@ erDiagram
     }
 ```
 
-## 3. Relational Schema
+<img src="assets/rule-3.svg" width="100%" height="8" alt=""/>
+
+## $\color{#2A9D8F}{\textsf{3. Relational Schema}}$
 
 ```
 DEPARTMENT (dept_id, dept_name, location, manager_id → EMPLOYEE, established)
@@ -147,9 +151,10 @@ WORKS_ON   (emp_id → EMPLOYEE, proj_id → PROJECT, hours_per_week, role)
 
 > `department.manager_id` and `employee.dept_id` refer to each other. So `department` is created first, and its foreign key to `employee` is added afterwards with `ALTER TABLE`.
 
----
 
-## 4. Implementation
+<img src="assets/rule-3.svg" width="100%" height="8" alt=""/>
+
+## $\color{#2A9D8F}{\textsf{4. Implementation}}$
 
 ### 4.1 Create Database and Tables
 
@@ -330,9 +335,10 @@ INSERT INTO works_on VALUES
 +------------+-----------+
 ```
 
----
 
-## 5. Queries and Output
+<img src="assets/rule-3.svg" width="100%" height="8" alt=""/>
+
+## $\color{#2A9D8F}{\textsf{5. Queries and Output}}$
 
 | Concept | Queries |
 |---|---|
@@ -1312,27 +1318,31 @@ ORDER BY avg_salary DESC;
 +-----------------+-----------+-----------+------------+--------------+----------+
 ```
 
----
 
-## Result
+<img src="assets/rule-3.svg" width="100%" height="8" alt=""/>
 
-An Employee–Department–Project schema was created in MySQL with **5 departments, 32 employees, 8 projects and 40 project assignments**. The 36 queries demonstrate:
+## $\color{#2A9D8F}{\textsf{Result}}$
 
-- **Selection** with `WHERE`, `AND/OR`, `BETWEEN`, `IN`, `LIKE`, `IS NULL` and `<>`.
-- **Projection** with column lists, `DISTINCT`, aliases and computed columns.
-- **Aggregate functions** `COUNT`, `SUM`, `AVG`, `MIN` and `MAX`.
-- **GROUP BY** on one or more columns, and **HAVING** to filter groups.
-- **Searched and simple CASE** expressions, including CASE inside aggregates for pivot-style reports.
-- **ORDER BY** on several columns, aliases and CASE expressions, with `LIMIT`.
+> [!IMPORTANT]
+> **Result**
+>
+> An Employee–Department–Project schema was created in MySQL with **5 departments, 32 employees, 8 projects and 40 project assignments**. The 36 queries demonstrate:
+>
+> - **Selection** with `WHERE`, `AND/OR`, `BETWEEN`, `IN`, `LIKE`, `IS NULL` and `<>`.
+> - **Projection** with column lists, `DISTINCT`, aliases and computed columns.
+> - **Aggregate functions** `COUNT`, `SUM`, `AVG`, `MIN` and `MAX`.
+> - **GROUP BY** on one or more columns, and **HAVING** to filter groups.
+> - **Searched and simple CASE** expressions, including CASE inside aggregates for pivot-style reports.
+> - **ORDER BY** on several columns, aliases and CASE expressions, with `LIMIT`.
+>
+> All queries ran successfully and produced the outputs shown.
 
-All queries ran successfully and produced the outputs shown.
-
----
+<img src="assets/rule-3.svg" width="100%" height="8" alt=""/>
 
 <div align="center">
 
-[← Experiment 2](Exp_2.md) &nbsp;|&nbsp; [Home](README.md) &nbsp;|&nbsp; [Experiment 4 →](Exp_4.md)
+<a href="Exp_2.md"><img src="https://img.shields.io/badge/Previous-Experiment%202-E76F51?style=for-the-badge" alt="Previous"/></a> <a href="README.md"><img src="https://img.shields.io/badge/Back%20to-Index-3D405B?style=for-the-badge" alt="Index"/></a> <a href="Exp_4.md"><img src="https://img.shields.io/badge/Next-Experiment%204-264653?style=for-the-badge" alt="Next"/></a>
 
-**Iqra Khan** &nbsp;·&nbsp; UID: **25LBCS3306** &nbsp;·&nbsp; DBMS Lab – Experiment 3
+<sub>Iqra Khan · UID 25LBCS3306 · Experiment 03</sub>
 
 </div>
