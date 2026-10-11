@@ -1,33 +1,32 @@
 <div align="center">
 
-# Experiment 4
-### Joins, Subqueries, Set Operations and EXPLAIN
+<img src="assets/banner-exp4.svg" width="100%" alt="Experiment 4: Joins, Subqueries, Set Operations and EXPLAIN"/>
 
+<table>
+<tr><th align="left">Name</th><td>Iqra Khan</td><th align="left">UID</th><td><code>25LBCS3306</code></td></tr>
+<tr><th align="left">Experiment No.</th><td>04</td><th align="left">SQL Script</th><td><a href="joins_subqueries.sql"><img src="https://img.shields.io/badge/SQL%20Script-joins__subqueries.sql-264653?style=flat-square" alt="joins_subqueries.sql"/></a></td></tr>
+<tr><th align="left">Experiment Title</th><td colspan="3">Joins, Subqueries, Set Operations and EXPLAIN</td></tr>
+</table>
 
 </div>
 
+<img src="assets/rule-4.svg" width="100%" height="8" alt=""/>
 
-| | |
-|---|---|
-| **Name** | Iqra Khan |
-| **UID** | 25LBCS3306 |
-| **Subject** | Database Management Systems (DBMS) Lab |
-| **Experiment No.** | 4 |
-| **Title** | Joins, Subqueries, Set Operations and EXPLAIN |
-| **SQL Script** | [`joins_subqueries.sql`](joins_subqueries.sql) |
+## $\color{#264653}{\textsf{Aim}}$
 
----
+> [!NOTE]
+> Using the Employee–Department–Project schema, to write queries with **INNER JOIN, LEFT JOIN, self-join, 3-way join, correlated subqueries, EXISTS, and simulated INTERSECT and EXCEPT**, and to **compare execution plans using EXPLAIN**.
 
-## Aim
+<img src="assets/rule-4.svg" width="100%" height="8" alt=""/>
 
-Using the Employee–Department–Project schema, to write queries with **INNER JOIN, LEFT JOIN, self-join, 3-way join, correlated subqueries, EXISTS, and simulated INTERSECT and EXCEPT**, and to **compare execution plans using EXPLAIN**.
-
-## Software Required
+## $\color{#264653}{\textsf{Software Required}}$
 
 - MySQL Server 8.0 or later. Native `INTERSECT` and `EXCEPT` (Q26, Q29) need 8.0.31 or later. `EXPLAIN ANALYZE` needs 8.0.18 or later.
 - MySQL Workbench or the MySQL command-line client
 
-## Files
+<img src="assets/rule-4.svg" width="100%" height="8" alt=""/>
+
+## $\color{#264653}{\textsf{Files}}$
 
 | File | Description |
 |---|---|
@@ -44,9 +43,10 @@ mysql -u root -p -t < joins_subqueries.sql                  # runs Experiment 4
 
 > All outputs below were captured on **MySQL 8.0.46**. Row estimates, costs and times in EXPLAIN can differ slightly on other versions.
 
----
 
-## 1. Theory
+<img src="assets/rule-4.svg" width="100%" height="8" alt=""/>
+
+## $\color{#264653}{\textsf{1. Theory}}$
 
 ### 1.1 Types of Joins
 
@@ -105,9 +105,10 @@ system → const → eq_ref → ref → range → index → ALL
 (1 row)  (PK =)  (PK join) (index =) (index range) (full index scan) (full table scan)
 ```
 
----
 
-## 2. Schema Used (from Experiment 3)
+<img src="assets/rule-4.svg" width="100%" height="8" alt=""/>
+
+## $\color{#264653}{\textsf{2. Schema Used (from Experiment 3)}}$
 
 ```mermaid
 erDiagram
@@ -128,9 +129,10 @@ WORKS_ON   (emp_id → EMPLOYEE, proj_id → PROJECT, hours_per_week, role)
 
 **Data:** 5 departments, 32 employees, 8 projects and 40 assignments. Employees 114 (Aditya) and 131 (Bhavna) are on no project.
 
----
 
-## 3. Query Index
+<img src="assets/rule-4.svg" width="100%" height="8" alt=""/>
+
+## $\color{#264653}{\textsf{3. Query Index}}$
 
 | Part | Concept | Queries |
 |---|---|---|
@@ -144,9 +146,10 @@ WORKS_ON   (emp_id → EMPLOYEE, proj_id → PROJECT, hours_per_week, role)
 | H | Simulated EXCEPT | Q27–Q30 |
 | — | EXPLAIN comparisons | E1–E11 |
 
----
 
-## 4. Queries and Output
+<img src="assets/rule-4.svg" width="100%" height="8" alt=""/>
+
+## $\color{#264653}{\textsf{4. Queries and Output}}$
 
 ### 4.A INNER JOIN
 
@@ -325,6 +328,7 @@ GROUP BY d.dept_id, d.dept_name;
 +-----------+--------------------+
 ```
 
+> [!TIP]
 > **Observation:** Compare with Q6. Putting the filter in `WHERE` removes the NULL rows produced by the LEFT JOIN, so the query behaves like an INNER JOIN. To keep unmatched rows, put the condition in `ON`.
 
 #### Q8. Projects with members of the Finance department (RIGHT JOIN keeps every project).
@@ -777,6 +781,7 @@ WHERE NOT EXISTS (
 +--------+------------+
 ```
 
+> [!TIP]
 > **Observation:** This is *relational division* (÷), written with a double `NOT EXISTS`: "there is no project of Rajesh that this employee does **not** work on". Rajesh works on P01 and P03. Only Vikram also works on both.
 
 ### 4.G Simulated INTERSECT
@@ -845,6 +850,7 @@ ORDER BY emp_id;
 +--------+
 ```
 
+> [!TIP]
 > **Observation:** Q24, Q25 and Q26 return the same employees (104, 108). The native operator needs MySQL **8.0.31 or later**. On older versions, `IN`, `EXISTS` or a join is the standard workaround.
 
 ### 4.H Simulated EXCEPT (MINUS)
@@ -925,6 +931,7 @@ ORDER BY emp_id;
 +--------+
 ```
 
+> [!TIP]
 > **Observation:** Q27, Q28 and Q29 return the same six employees. Be careful with `NOT IN`: if the subquery returns even one NULL, `NOT IN` returns **no rows**. `NOT EXISTS` and `LEFT JOIN … IS NULL` are NULL-safe.
 
 #### Q30. Departments that do NOT control any Ongoing project.
@@ -946,9 +953,10 @@ WHERE NOT EXISTS (SELECT 1 FROM project p
 +---------+-----------------+
 ```
 
----
 
-## 5. Comparing Execution Plans with EXPLAIN
+<img src="assets/rule-4.svg" width="100%" height="8" alt=""/>
+
+## $\color{#264653}{\textsf{5. Comparing Execution Plans with EXPLAIN}}$
 
 #### E1. Refresh table statistics first, then filter on a column without an index: a full table scan.
 
@@ -975,6 +983,7 @@ EXPLAIN SELECT * FROM employee WHERE city = 'Chennai';
 +----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
 ```
 
+> [!TIP]
 > **Observation:** `type = ALL` means a **full table scan**. MySQL reads all 32 rows and filters them (`Using where`), and it estimates only 10% of them will match.
 
 #### E2. After creating an index on city, MySQL looks up matching rows directly.
@@ -994,6 +1003,7 @@ EXPLAIN SELECT * FROM employee WHERE city = 'Chennai';
 +----+-------------+----------+------------+------+---------------+--------------+---------+-------+------+----------+-------+
 ```
 
+> [!TIP]
 > **Observation:** With the index, `type` becomes **`ref`** using `idx_emp_city`, and only **4 rows** (the Chennai employees) are read instead of 32.
 
 #### E3. Lookup by primary key is the cheapest access type (const).
@@ -1012,6 +1022,7 @@ EXPLAIN SELECT * FROM employee WHERE emp_id = 105;
 +----+-------------+----------+------------+-------+---------------+---------+---------+-------+------+----------+-------+
 ```
 
+> [!TIP]
 > **Observation:** `type = const` is the best access type. A primary-key equality can match at most one row, so MySQL reads it once and treats it as a constant.
 
 #### E4. An index on salary turns a range condition into a range scan.
@@ -1031,6 +1042,7 @@ EXPLAIN SELECT emp_id, salary FROM employee WHERE salary > 150000;
 +----+-------------+----------+------------+-------+----------------+----------------+---------+------+------+----------+--------------------------+
 ```
 
+> [!TIP]
 > **Observation:** `type = range` uses `idx_emp_salary` to read only salaries above 1,50,000. `Using index` means the index alone contains every column needed (a **covering index**), so the table itself is never read.
 
 #### E5. Join order and eq_ref lookups on primary keys.
@@ -1056,6 +1068,7 @@ WHERE p.proj_id = 'P03';
 +----+-------------+-------+------------+--------+--------------------+------------+---------+---------------------+------+----------+-----------------------+
 ```
 
+> [!TIP]
 > **Observation:** MySQL picks its own **join order**: `project` first (`const` on the primary key), then `works_on` via the `fk_wo_proj` index (`ref`, 6 rows), then one `employee` row per match (`eq_ref` on the primary key). Total work is about 1 × 6 × 1 rows instead of 32 × 40 × 8.
 
 #### E6. Q16 as written: the subquery is DEPENDENT and re-runs per outer row.
@@ -1078,6 +1091,7 @@ WHERE e.salary > (SELECT AVG(e2.salary) FROM employee e2 WHERE e2.dept_id = e.de
 +----+--------------------+-------+------------+------+---------------+-------------+---------+----------------------+------+----------+-------------+
 ```
 
+> [!TIP]
 > **Observation:** `select_type = DEPENDENT SUBQUERY` means the inner query depends on `e.dept_id` and is **re-executed for each of the 32 outer rows**.
 
 #### E7. Q16 rewritten as a JOIN with a derived table: averages computed once.
@@ -1104,6 +1118,7 @@ WHERE e.salary > da.avg_sal;
 +----+-------------+------------+------------+-------+----------------------------+-------------+---------+----------------------+------+----------+--------------------------+
 ```
 
+> [!TIP]
 > **Observation:** The rewrite turns the subquery into a **`DERIVED`** table. The five department averages are computed **once**, then joined through an automatic index (`<auto_key0>`). On large tables this is usually much faster than E6.
 
 #### E8. Three ways to find employees on some project (semi-join).
@@ -1137,6 +1152,7 @@ EXPLAIN SELECT DISTINCT e.emp_id FROM employee e JOIN works_on w ON w.emp_id = e
 +----+-------------+-------+------------+-------+----------------------------------------------------------------------+----------------+---------+---------------------+------+----------+------------------------------+
 ```
 
+> [!TIP]
 > **Observation:** MySQL 8 rewrote both `IN` and `EXISTS` into the **same semi-join plan** (`FirstMatch`: stop at the first matching project). The `JOIN + DISTINCT` version needs **`Using temporary`**, an extra temporary table to remove duplicates, so it does more work.
 
 #### E9. Three ways to write the anti-join of Q5.
@@ -1170,6 +1186,7 @@ EXPLAIN SELECT e.emp_id FROM employee e LEFT JOIN works_on w ON w.emp_id = e.emp
 +----+-------------+-------+------------+-------+---------------+----------------+---------+---------------------+------+----------+--------------------------------------+
 ```
 
+> [!TIP]
 > **Observation:** All three anti-join forms get an **identical plan**, with the `Not exists` optimization: MySQL stops looking in `works_on` once it finds a match. Because `works_on.emp_id` is `NOT NULL`, `NOT IN` is safe here. If that column allowed NULLs, MySQL could not use this plan for `NOT IN`, and the results could differ.
 
 #### E10. The plan of the 5-way join (Q14) as an operator tree.
@@ -1200,6 +1217,7 @@ WHERE e.dept_id <> p.dept_id;
     -> Single-row index lookup on ed using PRIMARY (dept_id=e.dept_id)  (cost=0.253 rows=1)
 ```
 
+> [!TIP]
 > **Observation:** The tree is read **inside-out** (most-indented first). The optimizer ignored the written order and started from `department pd`, then `project`, then `works_on`, then `employee`, then `department ed`. It applied the `e.dept_id <> pd.dept_id` filter as early as possible, so the estimated row count falls from 40 to 36.
 
 #### E11. Actually runs the correlated query and reports real row counts and times.
@@ -1221,11 +1239,13 @@ WHERE e.salary > (SELECT AVG(e2.salary) FROM employee e2 WHERE e2.dept_id = e.de
             -> Index lookup on e2 using fk_emp_dept (dept_id=e.dept_id)  (cost=1.39 rows=6.4) (actual time=0.00635..0.00859 rows=7.06 loops=32)
 ```
 
+> [!TIP]
 > **Observation:** `EXPLAIN ANALYZE` actually **runs** the query. `loops=32` confirms the dependent subquery was executed **32 times**, once per employee, and `rows=13` is the real result size. *Times vary from run to run.*
 
----
 
-## 6. Summary of the Plan Comparisons
+<img src="assets/rule-4.svg" width="100%" height="8" alt=""/>
+
+## $\color{#264653}{\textsf{6. Summary of the Plan Comparisons}}$
 
 | Comparison | Plan A | Plan B | Conclusion |
 |---|---|---|---|
@@ -1238,23 +1258,27 @@ WHERE e.salary > (SELECT AVG(e2.salary) FROM employee e2 WHERE e2.dept_id = e.de
 | `NOT IN` vs `NOT EXISTS` vs `LEFT JOIN IS NULL` (E9) | Anti-join (`Not exists`) | Identical | Same plan when the column is `NOT NULL`. Prefer `NOT EXISTS` for NULL safety. |
 | Tree format and actual run (E10, E11) | Estimated costs | Real rows, loops and times | `EXPLAIN ANALYZE` confirms what the estimates predict. |
 
----
 
-## Result
+<img src="assets/rule-4.svg" width="100%" height="8" alt=""/>
 
-Queries using **INNER JOIN, LEFT/RIGHT JOIN, self-join, multi-table joins, correlated subqueries, EXISTS / NOT EXISTS, and simulated INTERSECT and EXCEPT** were written and run on the Employee–Department–Project schema. The simulated set operations gave the same results as MySQL's native `INTERSECT` and `EXCEPT`.
+## $\color{#264653}{\textsf{Result}}$
 
-Execution plans were compared with `EXPLAIN`, `EXPLAIN FORMAT=TREE` and `EXPLAIN ANALYZE`:
-- Indexes changed full table scans (`ALL`) into `ref`, `range` and `const` lookups.
-- A correlated subquery ran once per outer row, while its derived-table rewrite ran once.
-- MySQL 8 produced the same semi-join plan for `IN` and `EXISTS`, and the same anti-join plan for `NOT IN`, `NOT EXISTS` and `LEFT JOIN … IS NULL`.
+> [!IMPORTANT]
+> **Result**
+>
+> Queries using **INNER JOIN, LEFT/RIGHT JOIN, self-join, multi-table joins, correlated subqueries, EXISTS / NOT EXISTS, and simulated INTERSECT and EXCEPT** were written and run on the Employee–Department–Project schema. The simulated set operations gave the same results as MySQL's native `INTERSECT` and `EXCEPT`.
+>
+> Execution plans were compared with `EXPLAIN`, `EXPLAIN FORMAT=TREE` and `EXPLAIN ANALYZE`:
+> - Indexes changed full table scans (`ALL`) into `ref`, `range` and `const` lookups.
+> - A correlated subquery ran once per outer row, while its derived-table rewrite ran once.
+> - MySQL 8 produced the same semi-join plan for `IN` and `EXISTS`, and the same anti-join plan for `NOT IN`, `NOT EXISTS` and `LEFT JOIN … IS NULL`.
 
----
+<img src="assets/rule-4.svg" width="100%" height="8" alt=""/>
 
 <div align="center">
 
-[← Experiment 3](Exp_3.md) &nbsp;|&nbsp; [Home](README.md) &nbsp;|&nbsp; [Experiment 5 →](Exp_5.md)
+<a href="Exp_3.md"><img src="https://img.shields.io/badge/Previous-Experiment%203-2A9D8F?style=for-the-badge" alt="Previous"/></a> <a href="README.md"><img src="https://img.shields.io/badge/Back%20to-Index-3D405B?style=for-the-badge" alt="Index"/></a> <a href="Exp_5.md"><img src="https://img.shields.io/badge/Next-Experiment%205-6D597A?style=for-the-badge" alt="Next"/></a>
 
-**Iqra Khan** &nbsp;·&nbsp; UID: **25LBCS3306** &nbsp;·&nbsp; DBMS Lab – Experiment 4
+<sub>Iqra Khan · UID 25LBCS3306 · Experiment 04</sub>
 
 </div>
