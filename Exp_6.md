@@ -1,33 +1,32 @@
 <div align="center">
 
-# Experiment 6
-### Stored Procedure, Triggers and Edge-Case Testing
+<img src="assets/banner-exp6.svg" width="100%" alt="Experiment 6: Stored Procedure, Triggers and Edge-Case Testing"/>
+
+<table>
+<tr><th align="left">Name</th><td>Iqra Khan</td><th align="left">UID</th><td><code>25LBCS3306</code></td></tr>
+<tr><th align="left">Experiment No.</th><td>06</td><th align="left">SQL Script</th><td><a href="procedures_triggers.sql"><img src="https://img.shields.io/badge/SQL%20Script-procedures__triggers.sql-9C6610?style=flat-square" alt="procedures_triggers.sql"/></a></td></tr>
+<tr><th align="left">Experiment Title</th><td colspan="3">Stored Procedure, Triggers and Edge-Case Testing</td></tr>
+</table>
 
 </div>
 
+<img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
 
+## $\color{#9C6610}{\textsf{Aim}}$
 
-| | |
-|---|---|
-| **Name** | Iqra Khan |
-| **UID** | 25LBCS3306 |
-| **Subject** | Database Management Systems (DBMS) Lab |
-| **Experiment No.** | 6 |
-| **Title** | Stored Procedure, Triggers and Edge-Case Testing |
-| **SQL Script** | [`procedures_triggers.sql`](procedures_triggers.sql) |
+> [!NOTE]
+> To create a stored procedure **`transfer_employee(emp_id, new_dept_id)`** with **validation and error handling**, to implement **triggers for salary validation and audit logging**, and to **test edge cases**.
 
----
+<img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
 
-## Aim
-
-To create a stored procedure **`transfer_employee(emp_id, new_dept_id)`** with **validation and error handling**, to implement **triggers for salary validation and audit logging**, and to **test edge cases**.
-
-## Software Required
+## $\color{#9C6610}{\textsf{Software Required}}$
 
 - MySQL Server 8.0 or later
 - MySQL Workbench or the MySQL command-line client
 
-## Files
+<img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9C6610}{\textsf{Files}}$
 
 | File | Description |
 |---|---|
@@ -44,9 +43,10 @@ mysql -u root -p -t --force < procedures_triggers.sql              # runs Experi
 
 > `--force` lets the script continue after the **intentional** errors in the test cases. The tests change employee data, so re-run the Experiment 3 script to reset it. Outputs were captured on **MySQL 8.0.46**.
 
----
 
-## 1. Theory
+<img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9C6610}{\textsf{1. Theory}}$
 
 ### 1.1 Stored Procedures
 
@@ -115,9 +115,10 @@ flowchart LR
 | 5105 | Trigger | Salary reduction |
 | 5106 | Trigger | Deleting a department head |
 
----
 
-## 2. Implementation
+<img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9C6610}{\textsf{2. Implementation}}$
 
 ### 2.1 Supporting Tables
 
@@ -388,9 +389,10 @@ DELIMITER ;
 
 `validate_salary` is a helper procedure called by **both** BEFORE triggers, so the salary rules are written only once.
 
----
 
-## 3. Verifying the Objects
+<img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9C6610}{\textsf{3. Verifying the Objects}}$
 
 #### D1. Stored routines in company_db.
 
@@ -438,9 +440,10 @@ ORDER BY ACTION_TIMING DESC, EVENT_MANIPULATION;
 6 rows in set
 ```
 
----
 
-## 4. Testing the Procedure
+<img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9C6610}{\textsf{4. Testing the Procedure}}$
 
 #### T1. Transfer Arjun (105) from Engineering (D01) to Finance (D03).
 
@@ -487,6 +490,7 @@ mysql> SELECT transfer_id, emp_id, from_dept, to_dept, old_manager_id, new_manag
 1 row in set
 ```
 
+> [!TIP]
 > **Observation:** All checks passed. In one transaction, the employee moved to D03, now reports to the Finance head (115), and a row was added to `transfer_history`.
 
 #### T2. Lower-case department code with spaces is accepted.
@@ -516,6 +520,7 @@ mysql> SELECT emp_id, first_name, dept_id, manager_id FROM employee WHERE emp_id
 1 row in set
 ```
 
+> [!TIP]
 > **Observation:** `UPPER(TRIM(p_new_dept_id))` turned `'  d02 '` into `'D02'`, so careless input is accepted safely.
 
 #### T3. Sanjay (112) is Lead only of a COMPLETED project, so he may move.
@@ -535,6 +540,7 @@ CALL transfer_employee(112, 'D04');
 1 row in set
 ```
 
+> [!TIP]
 > **Observation:** Rule 5006 blocks only Leads of **Ongoing** projects. Sanjay led P04, which is *Completed*, so his transfer is allowed.
 
 #### T4. NULL employee id.
@@ -550,6 +556,7 @@ mysql> CALL transfer_employee(NULL, 'D02');
 ERROR 5001 (45000): emp_id and new_dept_id are required
 ```
 
+> [!TIP]
 > **Observation:** A NULL input is caught before any table is touched.
 
 #### T5. Blank department code.
@@ -565,6 +572,7 @@ mysql> CALL transfer_employee(110, '   ');
 ERROR 5001 (45000): emp_id and new_dept_id are required
 ```
 
+> [!TIP]
 > **Observation:** After trimming, the department code is an empty string, which is treated the same as NULL.
 
 #### T6. Employee that does not exist.
@@ -632,6 +640,7 @@ mysql> CALL transfer_employee(104, 'D05');
 ERROR 5006 (45000): Sneha Kulkarni leads an ongoing project; hand over the project first
 ```
 
+> [!TIP]
 > **Observation:** Sneha also has two direct reports (rule 5007), but the checks run in order and rule 5006 comes first. The first rule that fails stops the procedure.
 
 #### T11. Transfer someone who has direct reports (Vikram manages Karthik and Divya).
@@ -677,6 +686,7 @@ mysql> SELECT COUNT(*) AS successful_transfers FROM transfer_history;
 1 row in set
 ```
 
+> [!TIP]
 > **Observation:** None of the eight failed calls changed any data. Each one hit the EXIT HANDLER, which ran `ROLLBACK`.
 
 #### T13. Every failed call was captured by the EXIT HANDLER.
@@ -705,11 +715,13 @@ ORDER BY log_id;
 8 rows in set
 ```
 
+> [!TIP]
 > **Observation:** The handler read the error with `GET DIAGNOSTICS`, rolled back, logged the failure, then used `RESIGNAL` to pass the **original** error number and message back to the caller.
 
----
 
-## 5. Testing the Triggers
+<img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9C6610}{\textsf{5. Testing the Triggers}}$
 
 #### S1. A valid new employee is inserted and audited.
 
@@ -777,6 +789,7 @@ mysql> SELECT emp_id, first_name, salary FROM employee WHERE emp_id = 141;
 1 row in set
 ```
 
+> [!TIP]
 > **Observation:** Boundary value: the rule is `salary < 15000`, so exactly 15,000 passes.
 
 #### S4. Salary above the maximum.
@@ -827,6 +840,7 @@ mysql> INSERT INTO employee (emp_id, first_name, last_name, gender, dob, hire_da
 ERROR 1048 (23000): Column 'salary' cannot be null
 ```
 
+> [!TIP]
 > **Observation:** Edge case: `NULL < 15000` is *unknown*, not TRUE, so the trigger's checks don't fire. The column's `NOT NULL` constraint is what rejects the row. Triggers and constraints work together.
 
 #### S7. A 10% raise is accepted and audited.
@@ -875,6 +889,7 @@ mysql> SELECT emp_id, first_name, salary FROM employee WHERE emp_id = 119;
 1 row in set
 ```
 
+> [!TIP]
 > **Observation:** Boundary value: 48,000 × 1.30 = 62,400 is exactly 30%, which is allowed. S9 shows 31% being rejected.
 
 #### S9. A raise of more than 30%.
@@ -946,6 +961,7 @@ mysql> SELECT emp_id, first_name, salary FROM employee WHERE dept_id = 'D05' ORD
 7 rows in set
 ```
 
+> [!TIP]
 > **Observation:** The trigger runs **for each row**. Swati's +37% raise failed, and MySQL rolled back the **whole statement**, including the rows already updated (Venkatesh, Deepa, Harish). No salary changed.
 
 #### S12. Changing only the city does NOT create an audit row.
@@ -980,6 +996,7 @@ mysql> SELECT COUNT(*) AS audit_rows_after FROM employee_audit;
 1 row in set
 ```
 
+> [!TIP]
 > **Observation:** The audit trigger records only changes to tracked columns (dept, salary, designation), so a city change creates no audit row.
 
 #### S13. Setting a salary to its current value is not a "reduction" and is not audited.
@@ -1005,6 +1022,7 @@ mysql> SELECT COUNT(*) AS audit_rows_after_noop FROM employee_audit;
 1 row in set
 ```
 
+> [!TIP]
 > **Observation:** `salary = salary` is not a reduction and changes nothing (`Changed: 0`), so no audit row is written.
 
 #### S14. Deleting a department head is blocked.
@@ -1054,11 +1072,13 @@ ORDER BY a.audit_id;
 3 rows in set
 ```
 
+> [!TIP]
 > **Observation:** Triggers also fire for changes made **inside the stored procedure**. Each successful transfer has a matching UPDATE audit row.
 
----
 
-## 6. Final Audit Trail
+<img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9C6610}{\textsf{6. Final Audit Trail}}$
 
 #### G1. Every change made by the tests, recorded automatically by the triggers.
 
@@ -1087,63 +1107,69 @@ ORDER BY audit_id;
 8 rows in set
 ```
 
+> [!TIP]
 > **Observation:** `audit_id` jumps from **7 to 11**. During S11, the AFTER UPDATE trigger wrote audit rows 8–10 for the first three employees, then Swati's row failed and the whole statement, **including the trigger's inserts**, was rolled back. AUTO_INCREMENT values are never reused, so the gap is proof that the rollback happened. `changed_at` is left out of this listing because it holds the time of the run.
 
----
 
-## 7. Edge-Case Test Summary
+<img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
+
+## $\color{#9C6610}{\textsf{7. Edge-Case Test Summary}}$
 
 | # | Test case | Expected | Actual |
 |---|---|---|---|
-| T1 | Valid transfer | Moved, manager updated, history and audit rows written | ✅ |
-| T2 | `'  d02 '` (lower case and spaces) | Normalised to `D02`, success | ✅ |
-| T3 | Lead of a *completed* project | Allowed | ✅ |
-| T4 | `emp_id = NULL` | Error 5001 | ✅ |
-| T5 | Blank department code | Error 5001 | ✅ |
-| T6 | Employee does not exist | Error 5002 | ✅ |
-| T7 | Department does not exist | Error 5003 | ✅ |
-| T8 | Same department | Error 5004 | ✅ |
-| T9 | Department head | Error 5005 | ✅ |
-| T10 | Lead of an ongoing project | Error 5006 | ✅ |
-| T11 | Has direct reports | Error 5007 | ✅ |
-| T12 | Data after failed calls | Unchanged (rolled back) | ✅ |
-| T13 | Failed calls logged | 8 rows in `procedure_error_log` | ✅ |
-| S1 | Valid INSERT | Inserted and audited | ✅ |
-| S2 / S4 / S5 | Salary too low / too high / commission > 50% | Errors 5101 / 5102 / 5103 | ✅ |
-| S3 | Salary exactly ₹15,000 | Allowed (boundary) | ✅ |
-| S6 | Salary NULL | Passes the trigger, rejected by NOT NULL (1048) | ✅ |
-| S7 | 10% raise | Allowed and audited | ✅ |
-| S8 | Exactly 30% raise | Allowed (boundary) | ✅ |
-| S9 | 31% raise | Error 5104 | ✅ |
-| S10 | Salary cut | Error 5105 | ✅ |
-| S11 | Multi-row UPDATE with one bad row | Whole statement rolled back | ✅ |
-| S12 | Update of an untracked column | No audit row | ✅ |
-| S13 | No-op update (`salary = salary`) | Not a cut, no audit row | ✅ |
-| S14 | Delete a department head | Error 5106 | ✅ |
-| S15 | Delete an ordinary employee | Deleted and audited | ✅ |
-| S16 | Trigger fired from inside the procedure | Audit row for each transfer | ✅ |
+| T1 | Valid transfer | Moved, manager updated, history and audit rows written | $\color{#2A9D8F}{\checkmark}$ |
+| T2 | `'  d02 '` (lower case and spaces) | Normalised to `D02`, success | $\color{#2A9D8F}{\checkmark}$ |
+| T3 | Lead of a *completed* project | Allowed | $\color{#2A9D8F}{\checkmark}$ |
+| T4 | `emp_id = NULL` | Error 5001 | $\color{#2A9D8F}{\checkmark}$ |
+| T5 | Blank department code | Error 5001 | $\color{#2A9D8F}{\checkmark}$ |
+| T6 | Employee does not exist | Error 5002 | $\color{#2A9D8F}{\checkmark}$ |
+| T7 | Department does not exist | Error 5003 | $\color{#2A9D8F}{\checkmark}$ |
+| T8 | Same department | Error 5004 | $\color{#2A9D8F}{\checkmark}$ |
+| T9 | Department head | Error 5005 | $\color{#2A9D8F}{\checkmark}$ |
+| T10 | Lead of an ongoing project | Error 5006 | $\color{#2A9D8F}{\checkmark}$ |
+| T11 | Has direct reports | Error 5007 | $\color{#2A9D8F}{\checkmark}$ |
+| T12 | Data after failed calls | Unchanged (rolled back) | $\color{#2A9D8F}{\checkmark}$ |
+| T13 | Failed calls logged | 8 rows in `procedure_error_log` | $\color{#2A9D8F}{\checkmark}$ |
+| S1 | Valid INSERT | Inserted and audited | $\color{#2A9D8F}{\checkmark}$ |
+| S2 / S4 / S5 | Salary too low / too high / commission > 50% | Errors 5101 / 5102 / 5103 | $\color{#2A9D8F}{\checkmark}$ |
+| S3 | Salary exactly ₹15,000 | Allowed (boundary) | $\color{#2A9D8F}{\checkmark}$ |
+| S6 | Salary NULL | Passes the trigger, rejected by NOT NULL (1048) | $\color{#2A9D8F}{\checkmark}$ |
+| S7 | 10% raise | Allowed and audited | $\color{#2A9D8F}{\checkmark}$ |
+| S8 | Exactly 30% raise | Allowed (boundary) | $\color{#2A9D8F}{\checkmark}$ |
+| S9 | 31% raise | Error 5104 | $\color{#2A9D8F}{\checkmark}$ |
+| S10 | Salary cut | Error 5105 | $\color{#2A9D8F}{\checkmark}$ |
+| S11 | Multi-row UPDATE with one bad row | Whole statement rolled back | $\color{#2A9D8F}{\checkmark}$ |
+| S12 | Update of an untracked column | No audit row | $\color{#2A9D8F}{\checkmark}$ |
+| S13 | No-op update (`salary = salary`) | Not a cut, no audit row | $\color{#2A9D8F}{\checkmark}$ |
+| S14 | Delete a department head | Error 5106 | $\color{#2A9D8F}{\checkmark}$ |
+| S15 | Delete an ordinary employee | Deleted and audited | $\color{#2A9D8F}{\checkmark}$ |
+| S16 | Trigger fired from inside the procedure | Audit row for each transfer | $\color{#2A9D8F}{\checkmark}$ |
 
----
 
-## Result
+<img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
 
-The stored procedure **`transfer_employee(emp_id, new_dept_id)`** was created:
-- It validates the input and enforces seven business rules with custom errors raised by `SIGNAL`.
-- Its EXIT HANDLER uses `GET DIAGNOSTICS`, `ROLLBACK`, error logging and `RESIGNAL`, which makes every transfer **all-or-nothing**.
+## $\color{#9C6610}{\textsf{Result}}$
 
-**Triggers** were implemented for:
-- **Salary validation:** limits, commission cap, maximum raise and no reductions (`BEFORE INSERT/UPDATE`).
-- **Protection of department heads** from deletion (`BEFORE DELETE`).
-- **Audit logging** of every insert, delete and relevant update into `employee_audit` (`AFTER` triggers).
+> [!IMPORTANT]
+> **Result**
+>
+> The stored procedure **`transfer_employee(emp_id, new_dept_id)`** was created:
+> - It validates the input and enforces seven business rules with custom errors raised by `SIGNAL`.
+> - Its EXIT HANDLER uses `GET DIAGNOSTICS`, `ROLLBACK`, error logging and `RESIGNAL`, which makes every transfer **all-or-nothing**.
+>
+> **Triggers** were implemented for:
+> - **Salary validation:** limits, commission cap, maximum raise and no reductions (`BEFORE INSERT/UPDATE`).
+> - **Protection of department heads** from deletion (`BEFORE DELETE`).
+> - **Audit logging** of every insert, delete and relevant update into `employee_audit` (`AFTER` triggers).
+>
+> All 29 edge cases behaved as expected. They covered NULL and blank input, case and whitespace normalisation, boundary values, multi-row statement rollback, no-op updates, untracked columns, and triggers firing inside the procedure.
 
-All 29 edge cases behaved as expected. They covered NULL and blank input, case and whitespace normalisation, boundary values, multi-row statement rollback, no-op updates, untracked columns, and triggers firing inside the procedure.
-
----
+<img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
 
 <div align="center">
 
-[← Experiment 5](Exp_5.md) &nbsp;|&nbsp; [Home](README.md)
+<a href="Exp_5.md"><img src="https://img.shields.io/badge/Previous-Experiment%205-6D597A?style=for-the-badge" alt="Previous"/></a> <a href="README.md"><img src="https://img.shields.io/badge/Back%20to-Index-3D405B?style=for-the-badge" alt="Index"/></a>
 
-**Iqra Khan** &nbsp;·&nbsp; UID: **25LBCS3306** &nbsp;·&nbsp; DBMS Lab – Experiment 6
+<sub>Iqra Khan · UID 25LBCS3306 · Experiment 06</sub>
 
 </div>
