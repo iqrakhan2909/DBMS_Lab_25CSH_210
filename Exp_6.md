@@ -1168,7 +1168,7 @@ ORDER BY audit_id;
 
 <div align="center">
 
-<a href="Exp_5.md"><img src="https://img.shields.io/badge/Previous-Experiment%205-6D597A?style=for-the-badge" alt="Previous"/></a> <a href="README.md"><img src="https://img.shields.io/badge/Back%20to-Index-3D405B?style=for-the-badge" alt="Index"/></a>
+<a href="Exp_5.md"><img src="https://img.shields.io/badge/Previous-Experiment%205-6D597A?style=for-the-badge" alt="Previous"/></a> <a href="README.md"><img src="https://img.shields.io/badge/Back%20to-Index-3D405B?style=for-the-badge" alt="Index"/></a> <a href="Exp_7.md"><img src="https://img.shields.io/badge/Next-Experiment%207-3D405B?style=for-the-badge" alt="Next"/></a>
 
 <sub>Iqra Khan · UID 25LBCS3306 · Experiment 06</sub>
 

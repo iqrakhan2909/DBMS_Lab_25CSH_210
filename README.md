@@ -14,7 +14,7 @@
 <img src="https://img.shields.io/badge/Subject%20Code-25CSH--210-9A1750?style=for-the-badge" alt="25CSH-210"/>
 <img src="https://img.shields.io/badge/Section-B-E76F51?style=for-the-badge" alt="Section B"/>
 <img src="https://img.shields.io/badge/Group-A-2A9D8F?style=for-the-badge" alt="Group A"/>
-<img src="https://img.shields.io/badge/Experiments-6%2F10-6D597A?style=for-the-badge" alt="6 of 10 experiments"/>
+<img src="https://img.shields.io/badge/Experiments-10%2F10-6D597A?style=for-the-badge" alt="10 of 10 experiments"/>
 
 <a href="#student-details"><img src="https://img.shields.io/badge/Student%20Details-9A1750?style=flat-square" alt="Student Details"/></a>
 <a href="#experiments"><img src="https://img.shields.io/badge/Experiments-E76F51?style=flat-square" alt="Experiments"/></a>
@@ -76,6 +76,10 @@ All queries were executed on **MySQL 8.0**, and the outputs in each record are c
 | <img src="https://img.shields.io/badge/04-264653?style=for-the-badge" alt="04"/> | **Joins, Subqueries and EXPLAIN** | `INNER` / `LEFT` / self / 3-way joins, correlated subqueries, `EXISTS`, simulated `INTERSECT` and `EXCEPT`, execution plans | [Exp_4.md](Exp_4.md) | [joins_subqueries.sql](joins_subqueries.sql) |
 | <img src="https://img.shields.io/badge/05-6D597A?style=for-the-badge" alt="05"/> | **Views and Recursive CTEs** | Salary summary and hierarchy views, view updatability, `WITH CHECK OPTION`, `WITH RECURSIVE` reporting chains | [Exp_5.md](Exp_5.md) | [views_recursive_cte.sql](views_recursive_cte.sql) |
 | <img src="https://img.shields.io/badge/06-9C6610?style=for-the-badge" alt="06"/> | **Stored Procedures and Triggers** | `transfer_employee` procedure, `SIGNAL` / `RESIGNAL`, error handlers, salary-validation and audit triggers, edge cases | [Exp_6.md](Exp_6.md) | [procedures_triggers.sql](procedures_triggers.sql) |
+| <img src="https://img.shields.io/badge/07-3D405B?style=for-the-badge" alt="07"/> | **Functional Dependencies and Normalization** | UNF → 1NF → 2NF → 3NF → BCNF, `JSON_TABLE` flattening, lossless-join and dependency-preservation verification via `EXCEPT` | [Exp_7.md](Exp_7.md) <br/> [Exp_7.pdf](Exp_7.pdf) | [normalization.sql](normalization.sql) |
+| <img src="https://img.shields.io/badge/08-E63946?style=for-the-badge" alt="08"/> | **Banking Transactions and Isolation Levels** | `BEGIN`/`COMMIT`/`ROLLBACK`/`SAVEPOINT`, partial-failure simulation, dirty/non-repeatable/phantom reads across two sessions | [Exp_8.md](Exp_8.md) <br/> [Exp_8.pdf](Exp_8.pdf) | [banking_transactions.sql](banking_transactions.sql) |
+| <img src="https://img.shields.io/badge/09-1D3557?style=for-the-badge" alt="09"/> | **Railway Booking: Indexing** | 6,000-row dataset, single vs composite indexes, `EXPLAIN ANALYZE` before/after benchmarks | [Exp_9.md](Exp_9.md) <br/> [Exp_9.pdf](Exp_9.pdf) | [railway_indexing.sql](railway_indexing.sql) |
+| <img src="https://img.shields.io/badge/10-7209B7?style=for-the-badge" alt="10"/> | **Large-Scale Query Optimization** | 12,000-row dataset, 5 slow-query anti-patterns fixed by indexing and query rewriting, `EXPLAIN ANALYZE` comparisons | [Exp_10.md](Exp_10.md) <br/> [Exp_10.pdf](Exp_10.pdf) | [query_optimization.sql](query_optimization.sql) |
 
 <img src="assets/rule-3.svg" width="100%" height="8" alt=""/>
 
@@ -95,12 +99,20 @@ DBMS-Lab/
 ├── Exp_4.md                     ← Joins, subqueries, EXPLAIN
 ├── Exp_5.md                     ← Views and recursive CTEs
 ├── Exp_6.md                     ← Procedures and triggers
+├── Exp_7.md                     ← Functional dependencies and normalization
+├── Exp_8.md                     ← Banking transactions and isolation levels
+├── Exp_9.md                     ← Railway booking: indexing
+├── Exp_10.md                    ← Large-scale query optimization
 │
 ├── ecommerce_schema.sql         ← Exp 2  (creates ecommerce_db)
 ├── company_queries.sql          ← Exp 3  (creates company_db, used by Exp 4–6)
 ├── joins_subqueries.sql         ← Exp 4
 ├── views_recursive_cte.sql      ← Exp 5
-└── procedures_triggers.sql      ← Exp 6
+├── procedures_triggers.sql      ← Exp 6
+├── normalization.sql            ← Exp 7  (creates sales_normalization_db)
+├── banking_transactions.sql     ← Exp 8  (creates bank_db)
+├── railway_indexing.sql         ← Exp 9  (creates railway_db)
+└── query_optimization.sql       ← Exp 10 (creates retail_orders_db)
 ```
 
 <img src="assets/rule-4.svg" width="100%" height="8" alt=""/>
@@ -132,10 +144,16 @@ mysql -u root -p -t < company_queries.sql
 mysql -u root -p -t          < joins_subqueries.sql
 mysql -u root -p -t --force  < views_recursive_cte.sql
 mysql -u root -p -t --force  < procedures_triggers.sql
+
+# Experiments 7-10 are self-contained (each creates and drops its own database)
+mysql -u root -p -t          < normalization.sql
+mysql -u root -p -t --force  < banking_transactions.sql   # Section 5 (2-session demo) is run interactively
+mysql -u root -p -t          < railway_indexing.sql
+mysql -u root -p -t --force  < query_optimization.sql
 ```
 
 > [!CAUTION]
-> `--force` keeps the script running after errors that are **intentional**. Experiments 2, 5 and 6 deliberately trigger constraint, view and trigger violations to demonstrate them.
+> `--force` keeps the script running after errors that are **intentional**. Experiments 2, 5, 6, 8 and 10 deliberately trigger constraint, view, trigger and application-level violations to demonstrate them.
 
 > [!TIP]
 > Experiment 6 changes employee data. To start again from clean data, re-run `company_queries.sql`.
@@ -177,6 +195,30 @@ erDiagram
 | `employee` | 32 | Indian employees with a manager hierarchy (self-reference) |
 | `project` | 8 | e.g. UPI Payment Gateway, GST Compliance Automation, Diwali Festive Campaign |
 | `works_on` | 40 | M : N assignments with weekly hours and role |
+
+### 3. `sales_normalization_db`: Denormalized Sales register (Exp 7)
+
+A 10-sale / 19-line-item register, taken step by step from **UNF** (a repeating `products_ordered` JSON group) to **BCNF**: `customer`, `store`, `salesperson`, `product`, `sales_header_3nf`, `sale_item`.
+
+### 4. `bank_db`: Bank accounts (Exp 8)
+
+| Table | Rows | Description |
+|---|:---:|---|
+| `account` | 5 (+2 added live) | Savings/current accounts with a `CHECK (balance >= 0)` constraint |
+| `transaction_log` | grows with each transfer | Audit trail of successful and failed transfers |
+
+### 5. `railway_db`: Railway bookings (Exp 9)
+
+| Table | Rows | Description |
+|---|:---:|---|
+| `train` | 40 | Reference list of trains |
+| `railway_booking` | 6,000 | Generated bookings, indexed by PNR and by `(train_id, journey_date)` |
+
+### 6. `retail_orders_db`: Retail orders (Exp 10)
+
+| Table | Rows | Description |
+|---|:---:|---|
+| `orders` | 12,000 | Generated orders used to reproduce and fix 5 classic slow-query patterns |
 
 <img src="assets/rule-6.svg" width="100%" height="8" alt=""/>
 
@@ -226,6 +268,26 @@ $\color{#9C6610}{\textsf{Database Programming}}$
 - [x] Stored procedures and transactions
 - [x] `SIGNAL`, `RESIGNAL`, `GET DIAGNOSTICS`
 - [x] `BEFORE` / `AFTER` triggers and audit logging
+
+$\color{#3D405B}{\textsf{Normalization}}$
+- [x] Functional dependencies and candidate keys
+- [x] UNF → 1NF → 2NF → 3NF → BCNF, step by step
+- [x] Lossless-join verification (`EXCEPT`)
+- [x] Dependency-preservation verification
+- [x] Update anomalies in denormalized designs
+
+$\color{#E63946}{\textsf{Transactions and Concurrency}}$
+- [x] `BEGIN`/`COMMIT`/`ROLLBACK`/`SAVEPOINT`
+- [x] Partial failure and atomicity
+- [x] Isolation levels (`READ UNCOMMITTED` → `SERIALIZABLE`)
+- [x] Dirty read, non-repeatable read, phantom read (two-session demos)
+
+$\color{#1D3557}{\textsf{Indexing and Optimization}}$
+- [x] Single-column and composite (multi-column) indexes
+- [x] `EXPLAIN` / `EXPLAIN ANALYZE`, `Handler_read_%` status counters
+- [x] Sargable rewrites, `FULLTEXT` search, index merge / `UNION`
+- [x] Correlated subquery → derived-table `JOIN` rewrite
+- [x] Eliminating filesort with an `ORDER BY`-supporting index
 
 </td>
 </tr>
